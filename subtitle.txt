@@ -1,0 +1,454 @@
+I recently watched this data fetching
+
+video by Josh and I was shocked how bad
+
+the advice was if every single website
+
+implemented what he said to do 50% of
+
+the entire world would no longer be able
+
+to access the internet so in this video
+
+I'm going to be talking about what is
+
+wrong with his advice as well as showing
+
+what you can do instead to solve the
+
+problem he was trying to
+
+fix welcome back to web dev simplified
+
+my name is Kyle and my job is to
+
+simplify the web for you so you can
+
+start building your dream project sooner
+
+and in J's video the problem he was
+
+trying to solve is when you're
+
+requesting data from a server if the
+
+server is really slow what do you do to
+
+let the user know in our case when I
+
+click this load users button you can see
+
+our data loaded almost instantaneously
+
+as you can see I have an API set up and
+
+I have the delay set to 10 milliseconds
+
+so as you can see it's a very quick data
+
+Fetch and that's because I have fast
+
+internet I'm hardwired in and all of
+
+that what happens if there is a problem
+
+with the server and the server was
+
+taking longer than usual to respond
+
+because there's too many requests coming
+
+in let's say instead of 10 millisecond
+
+this actually was taking 10 seconds so
+
+if we restart our server and I just
+
+refresh this page and I click load users
+
+you're now going to notice it's stuck in
+
+this loading State and it's going to be
+
+stuck there for 10 seconds which is
+
+obviously not a good user experience I
+
+may think that your site is broken and I
+
+may leave because I'm like what the heck
+
+there's a problem with your site
+
+eventually the data gets there but it
+
+takes a really long time what Josh
+
+proposed that you do to solve this
+
+problem is inside of your code where
+
+you're fetching out your user
+
+information this is pretty much a basic
+
+fetch request where we're just setting
+
+our loading State then we're getting our
+
+dat setting it to success if we have an
+
+error we set it to an error and that's
+
+all that's happening but inside of here
+
+we're setting a timeout this is Josh's
+
+idea is that if your request takes too
+
+long in our example we're just saying 2
+
+seconds if it takes longer than 2
+
+seconds just cancel the request
+
+completely because there's probably
+
+something wrong with your server so now
+
+you can see if I save that refresh and
+
+click load it's going to wait 2 seconds
+
+and then I'm going to get an error
+
+because this timeout ran it canceled my
+
+request and it went into this catch
+
+block right here with an error now
+
+technically doing this will solve the
+
+problem that we came into where we have
+
+extra long loading states that are
+
+probably a problem with our server but
+
+the problem that this introduces is that
+
+now if you're on a slow connection for
+
+example if you have really bad data
+
+connection I'm very used to this living
+
+in Nebraska it's like the whole for all
+
+data connection Maps but if you have
+
+really slow data connection or you just
+
+have a slow internet connection in
+
+general you're going to hit this 2C
+
+timeout and you're not going to be able
+
+to access data at all and a large
+
+portion of the world is living on 3G or
+
+slower data so it's always going to take
+
+them longer than 2 3 4 seconds to
+
+request data from the server which means
+
+they're never going to be able to access
+
+anything cuz it's just airing out before
+
+the data ever gets there now I love
+
+Josh's videos I think he does a really
+
+good job but unfortunately in this
+
+regard I think he kind of dropped the
+
+ball and it's perfectly okay he was
+
+solving a problem and he solved it he
+
+just didn't really think about some of
+
+the edge cases so I want to show you an
+
+alternative solution that does the exact
+
+same thing of solving the problem but
+
+doesn't ever degrade the experience for
+
+anyone else so the easiest thing by far
+
+that we can do is instead of canceling
+
+our request here instead we just want to
+
+notify the user that there is some type
+
+of delay going on so instead of
+
+canceling the request we're going to
+
+remove this canceling code I'm just
+
+going to comment it out for now we'll
+
+comment this out and we'll comment out
+
+the section where we're adding in the
+
+signal for cancelling that's all of our
+
+cancel code removed and instead when the
+
+request is taking too long to get back
+
+to us I'm going to set a new fetch
+
+status and this one I'm going to set to
+
+delayed saying that this response is
+
+delayed compared to what we expect it
+
+shouldn't be taking this long and this
+
+may be 2 seconds 3 seconds 4 seconds 5
+
+seconds it's whatever your app needs so
+
+now we can actually take that delay
+
+response come in here and when our fetch
+
+status is equal to to delayed we can
+
+actually render out a message to our
+
+users so let's just render out a div
+
+that says this response is taking longer
+
+than normal that looks pretty good and
+
+up here just to make sure our button is
+
+properly disabled because we still want
+
+it to be disabled when our fetch status
+
+is equal to delayed we're just going to
+
+add that in like this so now I'm going
+
+to click on load users you can see it's
+
+loading and after a couple seconds you
+
+can now see it says hey this response is
+
+taking longer than normal but it's still
+
+processing my response in the background
+
+and after that full 10-second delay I
+
+will see the data show up just like you
+
+saw and now I can click the button again
+
+or do whatever else I want so I'm
+
+getting the Best of Both Worlds when I
+
+click this button and the data is taking
+
+too long to get back to me I'm giving
+
+the user a message saying hey there's
+
+probably something wrong with our server
+
+this is why it's taking longer than
+
+normal you know this is perfectly normal
+
+don't worry about it we're still working
+
+on this but for the slower browsers you
+
+can see we're still getting that data
+
+back instead of just canceling out of
+
+the response completely we can even take
+
+this a step further by actually adding
+
+in like a cancel button so what we can
+
+do inside here this response is taking
+
+longer than normal it is still running
+
+in the background if you want you can
+
+cancel the request and rryy it obviously
+
+you can use whatever normal copy you
+
+want but inside here I'm just going to
+
+add a cancel button so let's just come
+
+in here make sure I have this fragment
+
+to close everything off and we'll add in
+
+a button and this button will say cancel
+
+just like that so now if I click load
+
+users after 2 seconds you will see that
+
+this cancel button will pop up and I can
+
+click on it but I need to make it
+
+actually cancel my request so to do that
+
+I'm going to create my abort controller
+
+here just like I was before I want to
+
+pass along my signal so I can actually
+
+cancel my request but instead of
+
+canceling it in this timeout i instead
+
+want to cancel it down here when I click
+
+on this button so on click I want to run
+
+some code that's going to essentially
+
+call controller. abort now in order to
+
+get this controller to abort things I
+
+need to store it inside of a reference
+
+so we can just say here const controller
+
+ref is equal to use ref and then we can
+
+say our controller ref urrent is equal
+
+to that and here our controller ref.
+
+current. signal and down here controller
+
+ref. current. abort so now all this is
+
+saying is that we can abort the request
+
+directly from inside of here so now if I
+
+click load users you can see after 2
+
+seconds I get this message and if I
+
+click cancel you can see it cancels
+
+everything out and gives me back this
+
+error response if I want I can even come
+
+in here and I can say if e.name is equal
+
+to abort
+
+controller well then I can set my fet
+
+fetch stus to something like
+
+canceled or we'll just say canel there
+
+we go otherwise I'll set it to error
+
+because this is going to be called
+
+anytime I actually cancel it with an
+
+abort request it's going to come into
+
+this code and then I could you know just
+
+copy this we'll say if it's
+
+cancelled canell we'll just render out
+
+the text cancelled
+
+instead there we go so now if I click
+
+load users you can see it's waiting
+
+after 2 seconds I'll get this message
+
+when I click cancel you can see that my
+
+error is incorrect and that's because
+
+that this instead of saying abort
+
+controller should say abort error that
+
+was just a type on my end so now let's
+
+click load user you can see it's loading
+
+I'm going to get this cancel and now you
+
+can see it say canceled right here now I
+
+don't want this video to be an attack on
+
+Josh or anything like that I think his
+
+content is really great I'll actually
+
+put a link to his channel on the screen
+
+so you can check out some of his other
+
+videos I just saw this recent video and
+
+I had to make a response to it because I
+
+really didn't like the advice being
+
+shown there and I wanted to show you
+
+guys a way to do the exact same thing
+
+he's trying to solve but in a much
+
+better way
+

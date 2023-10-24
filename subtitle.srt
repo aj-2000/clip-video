@@ -1,0 +1,908 @@
+1
+00:00:00,120 --> 00:00:02,159
+I recently watched this data fetching
+
+2
+00:00:02,159 --> 00:00:04,680
+video by Josh and I was shocked how bad
+
+3
+00:00:04,680 --> 00:00:07,279
+the advice was if every single website
+
+4
+00:00:07,279 --> 00:00:09,719
+implemented what he said to do 50% of
+
+5
+00:00:09,719 --> 00:00:11,480
+the entire world would no longer be able
+
+6
+00:00:11,480 --> 00:00:13,440
+to access the internet so in this video
+
+7
+00:00:13,440 --> 00:00:14,719
+I'm going to be talking about what is
+
+8
+00:00:14,719 --> 00:00:16,800
+wrong with his advice as well as showing
+
+9
+00:00:16,800 --> 00:00:18,560
+what you can do instead to solve the
+
+10
+00:00:18,560 --> 00:00:21,520
+problem he was trying to
+
+11
+00:00:22,359 --> 00:00:25,160
+fix welcome back to web dev simplified
+
+12
+00:00:25,160 --> 00:00:26,519
+my name is Kyle and my job is to
+
+13
+00:00:26,519 --> 00:00:28,000
+simplify the web for you so you can
+
+14
+00:00:28,000 --> 00:00:29,759
+start building your dream project sooner
+
+15
+00:00:29,759 --> 00:00:31,560
+and in J's video the problem he was
+
+16
+00:00:31,560 --> 00:00:32,840
+trying to solve is when you're
+
+17
+00:00:32,840 --> 00:00:34,879
+requesting data from a server if the
+
+18
+00:00:34,879 --> 00:00:36,879
+server is really slow what do you do to
+
+19
+00:00:36,879 --> 00:00:38,800
+let the user know in our case when I
+
+20
+00:00:38,800 --> 00:00:40,520
+click this load users button you can see
+
+21
+00:00:40,520 --> 00:00:43,160
+our data loaded almost instantaneously
+
+22
+00:00:43,160 --> 00:00:44,840
+as you can see I have an API set up and
+
+23
+00:00:44,840 --> 00:00:46,640
+I have the delay set to 10 milliseconds
+
+24
+00:00:46,640 --> 00:00:48,239
+so as you can see it's a very quick data
+
+25
+00:00:48,239 --> 00:00:49,840
+Fetch and that's because I have fast
+
+26
+00:00:49,840 --> 00:00:51,520
+internet I'm hardwired in and all of
+
+27
+00:00:51,520 --> 00:00:53,680
+that what happens if there is a problem
+
+28
+00:00:53,680 --> 00:00:54,960
+with the server and the server was
+
+29
+00:00:54,960 --> 00:00:56,640
+taking longer than usual to respond
+
+30
+00:00:56,640 --> 00:00:58,039
+because there's too many requests coming
+
+31
+00:00:58,039 --> 00:01:00,359
+in let's say instead of 10 millisecond
+
+32
+00:01:00,359 --> 00:01:02,480
+this actually was taking 10 seconds so
+
+33
+00:01:02,480 --> 00:01:04,040
+if we restart our server and I just
+
+34
+00:01:04,040 --> 00:01:05,840
+refresh this page and I click load users
+
+35
+00:01:05,840 --> 00:01:07,320
+you're now going to notice it's stuck in
+
+36
+00:01:07,320 --> 00:01:08,600
+this loading State and it's going to be
+
+37
+00:01:08,600 --> 00:01:10,400
+stuck there for 10 seconds which is
+
+38
+00:01:10,400 --> 00:01:12,400
+obviously not a good user experience I
+
+39
+00:01:12,400 --> 00:01:14,080
+may think that your site is broken and I
+
+40
+00:01:14,080 --> 00:01:15,320
+may leave because I'm like what the heck
+
+41
+00:01:15,320 --> 00:01:16,799
+there's a problem with your site
+
+42
+00:01:16,799 --> 00:01:18,080
+eventually the data gets there but it
+
+43
+00:01:18,080 --> 00:01:20,439
+takes a really long time what Josh
+
+44
+00:01:20,439 --> 00:01:21,880
+proposed that you do to solve this
+
+45
+00:01:21,880 --> 00:01:23,400
+problem is inside of your code where
+
+46
+00:01:23,400 --> 00:01:24,720
+you're fetching out your user
+
+47
+00:01:24,720 --> 00:01:26,720
+information this is pretty much a basic
+
+48
+00:01:26,720 --> 00:01:28,000
+fetch request where we're just setting
+
+49
+00:01:28,000 --> 00:01:29,640
+our loading State then we're getting our
+
+50
+00:01:29,640 --> 00:01:31,360
+dat setting it to success if we have an
+
+51
+00:01:31,360 --> 00:01:33,159
+error we set it to an error and that's
+
+52
+00:01:33,159 --> 00:01:34,960
+all that's happening but inside of here
+
+53
+00:01:34,960 --> 00:01:36,880
+we're setting a timeout this is Josh's
+
+54
+00:01:36,880 --> 00:01:38,799
+idea is that if your request takes too
+
+55
+00:01:38,799 --> 00:01:40,240
+long in our example we're just saying 2
+
+56
+00:01:40,240 --> 00:01:41,680
+seconds if it takes longer than 2
+
+57
+00:01:41,680 --> 00:01:43,360
+seconds just cancel the request
+
+58
+00:01:43,360 --> 00:01:44,439
+completely because there's probably
+
+59
+00:01:44,439 --> 00:01:46,200
+something wrong with your server so now
+
+60
+00:01:46,200 --> 00:01:48,000
+you can see if I save that refresh and
+
+61
+00:01:48,000 --> 00:01:49,680
+click load it's going to wait 2 seconds
+
+62
+00:01:49,680 --> 00:01:50,840
+and then I'm going to get an error
+
+63
+00:01:50,840 --> 00:01:52,799
+because this timeout ran it canceled my
+
+64
+00:01:52,799 --> 00:01:54,240
+request and it went into this catch
+
+65
+00:01:54,240 --> 00:01:55,840
+block right here with an error now
+
+66
+00:01:55,840 --> 00:01:57,560
+technically doing this will solve the
+
+67
+00:01:57,560 --> 00:01:58,960
+problem that we came into where we have
+
+68
+00:01:58,960 --> 00:02:00,479
+extra long loading states that are
+
+69
+00:02:00,479 --> 00:02:02,560
+probably a problem with our server but
+
+70
+00:02:02,560 --> 00:02:04,640
+the problem that this introduces is that
+
+71
+00:02:04,640 --> 00:02:06,680
+now if you're on a slow connection for
+
+72
+00:02:06,680 --> 00:02:08,440
+example if you have really bad data
+
+73
+00:02:08,440 --> 00:02:10,199
+connection I'm very used to this living
+
+74
+00:02:10,199 --> 00:02:11,959
+in Nebraska it's like the whole for all
+
+75
+00:02:11,959 --> 00:02:13,680
+data connection Maps but if you have
+
+76
+00:02:13,680 --> 00:02:15,280
+really slow data connection or you just
+
+77
+00:02:15,280 --> 00:02:16,519
+have a slow internet connection in
+
+78
+00:02:16,519 --> 00:02:18,040
+general you're going to hit this 2C
+
+79
+00:02:18,040 --> 00:02:19,160
+timeout and you're not going to be able
+
+80
+00:02:19,160 --> 00:02:21,280
+to access data at all and a large
+
+81
+00:02:21,280 --> 00:02:23,800
+portion of the world is living on 3G or
+
+82
+00:02:23,800 --> 00:02:26,040
+slower data so it's always going to take
+
+83
+00:02:26,040 --> 00:02:28,080
+them longer than 2 3 4 seconds to
+
+84
+00:02:28,080 --> 00:02:30,120
+request data from the server which means
+
+85
+00:02:30,120 --> 00:02:31,440
+they're never going to be able to access
+
+86
+00:02:31,440 --> 00:02:33,040
+anything cuz it's just airing out before
+
+87
+00:02:33,040 --> 00:02:34,760
+the data ever gets there now I love
+
+88
+00:02:34,760 --> 00:02:36,400
+Josh's videos I think he does a really
+
+89
+00:02:36,400 --> 00:02:38,000
+good job but unfortunately in this
+
+90
+00:02:38,000 --> 00:02:39,519
+regard I think he kind of dropped the
+
+91
+00:02:39,519 --> 00:02:41,120
+ball and it's perfectly okay he was
+
+92
+00:02:41,120 --> 00:02:42,599
+solving a problem and he solved it he
+
+93
+00:02:42,599 --> 00:02:43,760
+just didn't really think about some of
+
+94
+00:02:43,760 --> 00:02:45,560
+the edge cases so I want to show you an
+
+95
+00:02:45,560 --> 00:02:47,319
+alternative solution that does the exact
+
+96
+00:02:47,319 --> 00:02:48,879
+same thing of solving the problem but
+
+97
+00:02:48,879 --> 00:02:50,800
+doesn't ever degrade the experience for
+
+98
+00:02:50,800 --> 00:02:53,040
+anyone else so the easiest thing by far
+
+99
+00:02:53,040 --> 00:02:54,640
+that we can do is instead of canceling
+
+100
+00:02:54,640 --> 00:02:56,560
+our request here instead we just want to
+
+101
+00:02:56,560 --> 00:02:58,360
+notify the user that there is some type
+
+102
+00:02:58,360 --> 00:03:00,040
+of delay going on so instead of
+
+103
+00:03:00,040 --> 00:03:01,080
+canceling the request we're going to
+
+104
+00:03:01,080 --> 00:03:02,440
+remove this canceling code I'm just
+
+105
+00:03:02,440 --> 00:03:04,000
+going to comment it out for now we'll
+
+106
+00:03:04,000 --> 00:03:05,640
+comment this out and we'll comment out
+
+107
+00:03:05,640 --> 00:03:06,840
+the section where we're adding in the
+
+108
+00:03:06,840 --> 00:03:08,400
+signal for cancelling that's all of our
+
+109
+00:03:08,400 --> 00:03:10,400
+cancel code removed and instead when the
+
+110
+00:03:10,400 --> 00:03:12,360
+request is taking too long to get back
+
+111
+00:03:12,360 --> 00:03:14,239
+to us I'm going to set a new fetch
+
+112
+00:03:14,239 --> 00:03:15,920
+status and this one I'm going to set to
+
+113
+00:03:15,920 --> 00:03:17,599
+delayed saying that this response is
+
+114
+00:03:17,599 --> 00:03:19,280
+delayed compared to what we expect it
+
+115
+00:03:19,280 --> 00:03:21,080
+shouldn't be taking this long and this
+
+116
+00:03:21,080 --> 00:03:23,319
+may be 2 seconds 3 seconds 4 seconds 5
+
+117
+00:03:23,319 --> 00:03:25,440
+seconds it's whatever your app needs so
+
+118
+00:03:25,440 --> 00:03:26,760
+now we can actually take that delay
+
+119
+00:03:26,760 --> 00:03:28,799
+response come in here and when our fetch
+
+120
+00:03:28,799 --> 00:03:31,560
+status is equal to to delayed we can
+
+121
+00:03:31,560 --> 00:03:33,200
+actually render out a message to our
+
+122
+00:03:33,200 --> 00:03:34,760
+users so let's just render out a div
+
+123
+00:03:34,760 --> 00:03:38,560
+that says this response is taking longer
+
+124
+00:03:38,560 --> 00:03:41,159
+than normal that looks pretty good and
+
+125
+00:03:41,159 --> 00:03:42,680
+up here just to make sure our button is
+
+126
+00:03:42,680 --> 00:03:44,080
+properly disabled because we still want
+
+127
+00:03:44,080 --> 00:03:46,000
+it to be disabled when our fetch status
+
+128
+00:03:46,000 --> 00:03:47,519
+is equal to delayed we're just going to
+
+129
+00:03:47,519 --> 00:03:49,519
+add that in like this so now I'm going
+
+130
+00:03:49,519 --> 00:03:51,159
+to click on load users you can see it's
+
+131
+00:03:51,159 --> 00:03:52,920
+loading and after a couple seconds you
+
+132
+00:03:52,920 --> 00:03:54,400
+can now see it says hey this response is
+
+133
+00:03:54,400 --> 00:03:56,159
+taking longer than normal but it's still
+
+134
+00:03:56,159 --> 00:03:58,239
+processing my response in the background
+
+135
+00:03:58,239 --> 00:04:00,159
+and after that full 10-second delay I
+
+136
+00:04:00,159 --> 00:04:01,599
+will see the data show up just like you
+
+137
+00:04:01,599 --> 00:04:03,200
+saw and now I can click the button again
+
+138
+00:04:03,200 --> 00:04:04,840
+or do whatever else I want so I'm
+
+139
+00:04:04,840 --> 00:04:06,360
+getting the Best of Both Worlds when I
+
+140
+00:04:06,360 --> 00:04:07,879
+click this button and the data is taking
+
+141
+00:04:07,879 --> 00:04:09,319
+too long to get back to me I'm giving
+
+142
+00:04:09,319 --> 00:04:11,159
+the user a message saying hey there's
+
+143
+00:04:11,159 --> 00:04:12,439
+probably something wrong with our server
+
+144
+00:04:12,439 --> 00:04:13,640
+this is why it's taking longer than
+
+145
+00:04:13,640 --> 00:04:15,319
+normal you know this is perfectly normal
+
+146
+00:04:15,319 --> 00:04:16,720
+don't worry about it we're still working
+
+147
+00:04:16,720 --> 00:04:18,918
+on this but for the slower browsers you
+
+148
+00:04:18,918 --> 00:04:20,279
+can see we're still getting that data
+
+149
+00:04:20,279 --> 00:04:21,560
+back instead of just canceling out of
+
+150
+00:04:21,560 --> 00:04:23,320
+the response completely we can even take
+
+151
+00:04:23,320 --> 00:04:25,120
+this a step further by actually adding
+
+152
+00:04:25,120 --> 00:04:26,680
+in like a cancel button so what we can
+
+153
+00:04:26,680 --> 00:04:28,120
+do inside here this response is taking
+
+154
+00:04:28,120 --> 00:04:31,080
+longer than normal it is still running
+
+155
+00:04:31,080 --> 00:04:34,800
+in the background if you want you can
+
+156
+00:04:34,800 --> 00:04:39,120
+cancel the request and rryy it obviously
+
+157
+00:04:39,120 --> 00:04:40,560
+you can use whatever normal copy you
+
+158
+00:04:40,560 --> 00:04:42,080
+want but inside here I'm just going to
+
+159
+00:04:42,080 --> 00:04:43,720
+add a cancel button so let's just come
+
+160
+00:04:43,720 --> 00:04:46,919
+in here make sure I have this fragment
+
+161
+00:04:46,919 --> 00:04:48,840
+to close everything off and we'll add in
+
+162
+00:04:48,840 --> 00:04:52,840
+a button and this button will say cancel
+
+163
+00:04:52,840 --> 00:04:54,520
+just like that so now if I click load
+
+164
+00:04:54,520 --> 00:04:56,320
+users after 2 seconds you will see that
+
+165
+00:04:56,320 --> 00:04:57,919
+this cancel button will pop up and I can
+
+166
+00:04:57,919 --> 00:04:59,280
+click on it but I need to make it
+
+167
+00:04:59,280 --> 00:05:01,560
+actually cancel my request so to do that
+
+168
+00:05:01,560 --> 00:05:03,400
+I'm going to create my abort controller
+
+169
+00:05:03,400 --> 00:05:05,240
+here just like I was before I want to
+
+170
+00:05:05,240 --> 00:05:07,199
+pass along my signal so I can actually
+
+171
+00:05:07,199 --> 00:05:08,720
+cancel my request but instead of
+
+172
+00:05:08,720 --> 00:05:10,440
+canceling it in this timeout i instead
+
+173
+00:05:10,440 --> 00:05:12,039
+want to cancel it down here when I click
+
+174
+00:05:12,039 --> 00:05:14,600
+on this button so on click I want to run
+
+175
+00:05:14,600 --> 00:05:16,240
+some code that's going to essentially
+
+176
+00:05:16,240 --> 00:05:18,960
+call controller. abort now in order to
+
+177
+00:05:18,960 --> 00:05:20,720
+get this controller to abort things I
+
+178
+00:05:20,720 --> 00:05:22,479
+need to store it inside of a reference
+
+179
+00:05:22,479 --> 00:05:24,960
+so we can just say here const controller
+
+180
+00:05:24,960 --> 00:05:27,960
+ref is equal to use ref and then we can
+
+181
+00:05:27,960 --> 00:05:31,039
+say our controller ref urrent is equal
+
+182
+00:05:31,039 --> 00:05:33,160
+to that and here our controller ref.
+
+183
+00:05:33,160 --> 00:05:35,759
+current. signal and down here controller
+
+184
+00:05:35,759 --> 00:05:39,319
+ref. current. abort so now all this is
+
+185
+00:05:39,319 --> 00:05:40,919
+saying is that we can abort the request
+
+186
+00:05:40,919 --> 00:05:42,600
+directly from inside of here so now if I
+
+187
+00:05:42,600 --> 00:05:44,520
+click load users you can see after 2
+
+188
+00:05:44,520 --> 00:05:45,880
+seconds I get this message and if I
+
+189
+00:05:45,880 --> 00:05:47,280
+click cancel you can see it cancels
+
+190
+00:05:47,280 --> 00:05:48,639
+everything out and gives me back this
+
+191
+00:05:48,639 --> 00:05:50,840
+error response if I want I can even come
+
+192
+00:05:50,840 --> 00:05:55,160
+in here and I can say if e.name is equal
+
+193
+00:05:55,160 --> 00:05:57,800
+to abort
+
+194
+00:05:57,800 --> 00:06:00,120
+controller well then I can set my fet
+
+195
+00:06:00,120 --> 00:06:01,840
+fetch stus to something like
+
+196
+00:06:01,840 --> 00:06:03,960
+canceled or we'll just say canel there
+
+197
+00:06:03,960 --> 00:06:06,680
+we go otherwise I'll set it to error
+
+198
+00:06:06,680 --> 00:06:08,400
+because this is going to be called
+
+199
+00:06:08,400 --> 00:06:09,919
+anytime I actually cancel it with an
+
+200
+00:06:09,919 --> 00:06:11,520
+abort request it's going to come into
+
+201
+00:06:11,520 --> 00:06:13,280
+this code and then I could you know just
+
+202
+00:06:13,280 --> 00:06:15,400
+copy this we'll say if it's
+
+203
+00:06:15,400 --> 00:06:18,120
+cancelled canell we'll just render out
+
+204
+00:06:18,120 --> 00:06:19,960
+the text cancelled
+
+205
+00:06:19,960 --> 00:06:22,440
+instead there we go so now if I click
+
+206
+00:06:22,440 --> 00:06:24,120
+load users you can see it's waiting
+
+207
+00:06:24,120 --> 00:06:25,560
+after 2 seconds I'll get this message
+
+208
+00:06:25,560 --> 00:06:27,319
+when I click cancel you can see that my
+
+209
+00:06:27,319 --> 00:06:28,960
+error is incorrect and that's because
+
+210
+00:06:28,960 --> 00:06:30,360
+that this instead of saying abort
+
+211
+00:06:30,360 --> 00:06:32,960
+controller should say abort error that
+
+212
+00:06:32,960 --> 00:06:34,360
+was just a type on my end so now let's
+
+213
+00:06:34,360 --> 00:06:36,280
+click load user you can see it's loading
+
+214
+00:06:36,280 --> 00:06:37,479
+I'm going to get this cancel and now you
+
+215
+00:06:37,479 --> 00:06:39,960
+can see it say canceled right here now I
+
+216
+00:06:39,960 --> 00:06:41,520
+don't want this video to be an attack on
+
+217
+00:06:41,520 --> 00:06:43,199
+Josh or anything like that I think his
+
+218
+00:06:43,199 --> 00:06:44,560
+content is really great I'll actually
+
+219
+00:06:44,560 --> 00:06:46,000
+put a link to his channel on the screen
+
+220
+00:06:46,000 --> 00:06:47,240
+so you can check out some of his other
+
+221
+00:06:47,240 --> 00:06:49,160
+videos I just saw this recent video and
+
+222
+00:06:49,160 --> 00:06:51,000
+I had to make a response to it because I
+
+223
+00:06:51,000 --> 00:06:52,240
+really didn't like the advice being
+
+224
+00:06:52,240 --> 00:06:53,800
+shown there and I wanted to show you
+
+225
+00:06:53,800 --> 00:06:55,199
+guys a way to do the exact same thing
+
+226
+00:06:55,199 --> 00:06:56,759
+he's trying to solve but in a much
+
+227
+00:06:56,759 --> 00:06:59,319
+better way
+
